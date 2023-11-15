@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %} Workout {% endblock %}
+
+{% block content %}
+    {% for workout in workouts %}
+        <h1>{{ workout.name }}</h1>
+        <p>{{ workout.description }}</p>
+        <!-- Display other workout data here -->
+    {% endfor %}
+{% endblock %}
