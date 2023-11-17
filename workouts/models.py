@@ -1,7 +1,6 @@
 from django.db import models
 
 
-
 class Workout(models.Model):
     name = models.CharField(max_length=40)
     description = models.CharField(max_length=150)
@@ -15,6 +14,7 @@ class Workout(models.Model):
         ],
         default='minutes'
     )
+    exercises = models.ManyToManyField('Exercise', related_name='workouts')  # Use string form
     completed = models.BooleanField(default=False)
     INTENSITY_LEVELS = [
         ('L', 'low'),
@@ -22,7 +22,7 @@ class Workout(models.Model):
         ('V', 'vigorous')
     ]
     intensity = models.CharField(
-        max_length=20, 
+        max_length=20,
         choices=INTENSITY_LEVELS,
         default='M'
     )
@@ -39,9 +39,15 @@ class Workout(models.Model):
     def __str__(self):
         return self.name
 
-
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if self.exercises.count() < 3:  
+            for _ in range(3 - self.exercises.count()):
+                exercise = Exercise.objects.create(name="Exercise", description="Exercise description", weight=0,
+                                                   equipment_required="None", difficulty_level='M', repetitions=5,
+                                                   sets=3)
+                self.exercises.add(exercise)
 class Exercise(models.Model):
-    #workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
     name = models.CharField(max_length=40)
     description = models.TextField()
     weight = models.DecimalField(max_digits=999, decimal_places=1, null=True, blank=True)
@@ -62,4 +68,5 @@ class Exercise(models.Model):
 
     def __str__(self):
         return self.name
+
 
