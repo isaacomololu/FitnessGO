@@ -68,3 +68,8 @@ def profile(request):
         profile_form = UpdateProfileForm(instance=request.user.profile)
 
     return render(request, 'profile.html', {'user_form':user_form, 'profile_form':profile_form})
+
+
+@login_required
+def dashboard(request):
+    return render(request, 'dashboard.html')

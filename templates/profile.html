@@ -1,40 +1,40 @@
-{% extends "base.html" %}
-{% block title %}Profile Page{% endblock title %}
-{% block content %}
-    {% if user_form.errors %}
-        <div class="alert alert-danger alert-dismissible" role="alert">
-            <div id="form_errors">
-                {% for key, value in user_form.errors.items %}
-                    <strong>{{ value }}</strong>
-                {% endfor %}
-            </div>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    {% endif %}
-    <div class="form-content">
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="form-row">
-                <div class="col-md-5">
-                    <div class="form-group">
-                        <label class="small mb-1">Username:</label>
-                            {{ user_form.username }}
-                        <label class="small mb-1">Email:</label>
-                            {{ user_form.email }}
-                    </div>
-                    <div class="form-group">
-                        <a href="#">Change Password</a>
-                        <hr>
+{% extends 'base.html' %}
+{% block title %} Home {% endblock %}
 
-                    </div>
-                    <label class="small mb-1">Bio:</label> {{ profile_form.bio }}
-                </div>
+{% block content %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="container mt-5">
+        <div class="form-row">
+            <div class="col-md-6 form-group">
+                <label for="{{ user_form.username.id_for_label }}">Username:</label>
+                {{ user_form.username }}
             </div>
-            <br><br>
-            <button type="submit" class="btn btn-dark btn-lg">Save Changes</button>
-            <button type="reset" class="btn btn-dark btn-lg">Reset</button>
-        </form>
+            <div class="col-md-6 form-group">
+                <label for="{{ user_form.email.id_for_label }}">Email:</label>
+                {{ user_form.email }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="{{ profile_form.age.id_for_label }}">Age:</label>
+            {{ profile_form.age }}
+        </div>
+        <div class="form-group">
+            <label for="{{ profile_form.age.id_for_label }}">Height:</label>
+            {{ profile_form.height }}
+        </div>
+        <div class="form-group">
+            <label for="{{ profile_form.age.id_for_label }}">Weight:</label>
+            {{ profile_form.weight }}
+        </div>
+        <div class="form-group">
+            <label for="{{ profile_form.fitness_goal.id_for_label }}">Fitness Goal:</label>
+            {{ profile_form.fitness_goal }}
+        </div>
+
+        <button type="submit" class="btn btn-dark btn-lg">Save Changes</button>
+        <button type="reset" class="btn btn-dark btn-lg">Reset</button>
     </div>
-{% endblock content %}
+</form>
+
+{% endblock %}
