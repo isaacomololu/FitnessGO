@@ -1,9 +1,9 @@
 from django.db import models
-
+from users.models import Profile
 
 class Workout(models.Model):
     name = models.CharField(max_length=40)
-    description = models.CharField(max_length=150)
+    description = models.TextField()
     duration = models.PositiveIntegerField()
     duration_unit = models.CharField(
         max_length=10,
@@ -14,8 +14,9 @@ class Workout(models.Model):
         ],
         default='minutes'
     )
-    exercises = models.ManyToManyField('Exercise', related_name='workouts')  # Use string form
+    exercises = models.ManyToManyField('Exercise', related_name='workouts')
     completed = models.BooleanField(default=False)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='workouts')
     INTENSITY_LEVELS = [
         ('L', 'low'),
         ('M', 'moderate'),
@@ -51,7 +52,7 @@ class Exercise(models.Model):
     name = models.CharField(max_length=40)
     description = models.TextField()
     weight = models.DecimalField(max_digits=999, decimal_places=1, null=True, blank=True)
-    equipment_required = models.CharField(max_length=50, null=True, blank=True)
+    equipment_required = models.CharField(max_length=50, null=True, blank=True, default='None')
     DIFFICULTY_LEVELS = [
         ('VH', 'Very Hard'),
         ('H', 'Hard'),
@@ -63,8 +64,8 @@ class Exercise(models.Model):
         choices=DIFFICULTY_LEVELS,
         default='M'
     )
-    repetitions = models.PositiveIntegerField()
-    sets = models.PositiveIntegerField()
+    repetitions = models.PositiveIntegerField(null=True, blank=True)
+    sets = models.PositiveIntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.name

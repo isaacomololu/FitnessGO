@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 @login_required()
 def workouts(request, workout_id=None):
     fitness_goal = request.user.profile.fitness_goal
-    recommended_workouts = Workout.objects.filter(fitness_goal=fitness_goal)
+    recommended_workouts = Workout.objects.filter(profile=request.user.profile, profile__fitness_goal=fitness_goal)
 
     if workout_id:
         workout = get_object_or_404(Workout, pk=workout_id)
@@ -21,3 +21,14 @@ def workouts(request, workout_id=None):
             form = CustomizeWorkoutForm(instance=workout)
         return render(request, 'customize_workouts', {'form': form, 'recommended_workouts': recommended_workouts})
     return render(request, 'workout.html', {'recommended_workouts': recommended_workouts})
+
+
+@login_required
+def dashboard(request):
+    return render(request, 'dashboard.html')
+
+def create_workout(request):
+    return render(request, 'create_workout')
+
+def customize_workouts(request):
+    return render(request, 'customize_workouts')

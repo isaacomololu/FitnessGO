@@ -62,7 +62,7 @@ def profile(request):
             user_form.save()
             profile_form.save()
             messages.success(request, 'Your Profile is updated sucssefully')
-            return redirect(to='/users-profile')
+            return redirect(to='dashboard')
     else:
         user_form = UpdateUserForm(instance=request.user)
         profile_form = UpdateProfileForm(instance=request.user.profile)
@@ -70,6 +70,3 @@ def profile(request):
     return render(request, 'profile.html', {'user_form':user_form, 'profile_form':profile_form})
 
 
-@login_required
-def dashboard(request):
-    return render(request, 'dashboard.html')
