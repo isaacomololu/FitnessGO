@@ -1,0 +1,22 @@
+{% extends 'dashboard_base.html' %}
+
+{% block page_title %}Your Dashboard{% endblock %}
+
+{% block content %}
+  <h2>Your Diet Plans</h2>
+  <ul>
+    <p>Static Content for Testing</p>
+    {% for diet_plan in diet_plans %}
+    <li>{{ diet_plan.fitness_goal }} - {{ diet_plan.created_at }} - {{ diet_plan.breakfast }} - {{ diet_plan.lunch }} - {{ diet_plan.dinner }} - {{ diet_plan.snacks }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
+
+{% for workout in all_workouts %}
+        {% if workout.fitness_goal == request.user.profile.fitness_goal %}
+        <li>
+            <a href="{% url 'workout' workout.id %}">{{ workout.name }}</a>
+            - {{ workout.description }}
+        </li>
+        {% endif %}
+    {% endfor %}

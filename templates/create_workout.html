@@ -1,10 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'dashboard_base.html' %}
 
-</body>
-</html>
+{% block page_title %}Create Workouts{% endblock %}
+
+{% block content %}
+<h2>Create Custom Workout</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save Workout</button>
+  </form>
+{% endblock %}

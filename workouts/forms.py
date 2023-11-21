@@ -1,10 +1,7 @@
 from django import forms
-from .models import Workout
+from .models import CustomWorkout
 
-class CustomizeWorkoutForm(forms.ModelForm):
+class CustomWorkoutForm(forms.ModelForm):
     class Meta:
-        model = Workout
-        fields = ['name', 'exercises', 'duration', 'intensity']
-
-class WorkoutForm(forms.ModelForm):
-    pass
+        model = CustomWorkout
+        fields = ['name', 'description', 'exercises']

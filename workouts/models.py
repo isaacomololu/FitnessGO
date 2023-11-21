@@ -1,5 +1,6 @@
 from django.db import models
-from users.models import Profile
+from django.contrib.auth.models import User
+
 
 class Workout(models.Model):
     name = models.CharField(max_length=40)
@@ -16,7 +17,20 @@ class Workout(models.Model):
     )
     exercises = models.ManyToManyField('Exercise', related_name='workouts')
     completed = models.BooleanField(default=False)
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='workouts')
+    FITNESS_GOALS_CHOICES = [
+        ('SF', 'Stay Fit'),
+        ('LW', 'Lose Weight'),
+        ('BM', 'Build Muscle'),
+        ('KF', 'Keep Fit'),
+        ('IE', 'Improve Endurance'),
+    ]
+
+    fitness_goal = models.CharField(
+        max_length=20,
+        choices=FITNESS_GOALS_CHOICES,
+        default='SF'
+    )
+
     INTENSITY_LEVELS = [
         ('L', 'low'),
         ('M', 'moderate'),
@@ -47,7 +61,12 @@ class Workout(models.Model):
                 exercise = Exercise.objects.create(name="Exercise", description="Exercise description", weight=0,
                                                    equipment_required="None", difficulty_level='M', repetitions=5,
                                                    sets=3)
+
+                print(f"Created exercise: {exercise}")
                 self.exercises.add(exercise)
+                print(f"Added exercise to workout: {self}")
+
+
 class Exercise(models.Model):
     name = models.CharField(max_length=40)
     description = models.TextField()
@@ -66,6 +85,16 @@ class Exercise(models.Model):
     )
     repetitions = models.PositiveIntegerField(null=True, blank=True)
     sets = models.PositiveIntegerField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+class CustomWorkout(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=40)
+    description = models.TextField()
+    exercises = models.ManyToManyField(Exercise, related_name='custom_workouts')
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name

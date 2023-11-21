@@ -1,16 +1,16 @@
-{% extends 'base.html' %}
+{% extends 'dashboard_base.html' %}
+
+{% block page_title %}{{workout_id.name}}{% endblock %}
 
 {% block content %}
-<h2>Workouts</h2>
-
-<div class="row">
-  <div class="col-md-12">
-    <!-- Display recommended workouts -->
-    <h3>Recommended Workouts</h3>
-    <!-- Use a loop to display recommended workouts -->
-    {% for workout in recommended_workouts %}
-      <p>{{ workout.name }} - {{ workout.description }}</p>
+  <h2>{{ workout_id.name }}</h2>
+  <p>{{ workout_id.description }}</p>
+  <p>Duration: {{ workout_id.duration }} {{ workout_id.duration_unit }}</p>
+  <p>Intensity: {{ workout_id.intensity }}</p>
+  <h3>Exercises:</h3>
+  <ul>
+    {% for exercise in workout_id.exercises.all %}
+        <li>{{ exercise.name }} - {{ exercise.description }}</li>
     {% endfor %}
-  </div>
-</div>
+</ul>
 {% endblock %}
