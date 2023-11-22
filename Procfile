@@ -1,0 +1,1 @@
+web: gunicron FitnessGO.wsgi --log-file -
