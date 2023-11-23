@@ -3,16 +3,14 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import Profile
 
+# Form for user registration, extending Django's UserCreationForm
 class RegisterForm(UserCreationForm):
     first_name = forms.CharField(max_length=100, required=True,
                                  widget=forms.TextInput(attrs={'placeholder': 'First Name', 'class': 'form-control',}))
-
     last_name = forms.CharField(max_length=100, required=True,
                                 widget=forms.TextInput(attrs={'placeholder': 'Last Name', 'class': 'form-control',}))
-
     email = forms.EmailField(required=True,
                              widget=forms.TextInput(attrs={'placeholder': 'Email', 'class': 'form-control',}))
-
     password1 = forms.CharField(max_length=50, required=True,
                                 widget=forms.PasswordInput(
                                     attrs={'placeholder': 'Password', 'class': 'form-control', 'data-toggle': 'password', 'id': 'password', }))
@@ -20,11 +18,11 @@ class RegisterForm(UserCreationForm):
                                 widget=forms.PasswordInput(
                                     attrs={'placeholder': 'Confirm Password', 'class': 'form-control', 'data-toggle': 'password', 'id': 'password', }))
 
-
+# Form for user login, extending Django's AuthenticationForm
 class LoginForm(AuthenticationForm):
-    username = forms.CharField(max_length=100,required=True,
+    username = forms.CharField(max_length=100, required=True,
                                widget=forms.TextInput(attrs={'placeholder': 'Username', 'class': 'form-control',}))
-    password = forms.CharField(max_length=50,required=True,
+    password = forms.CharField(max_length=50, required=True,
                                widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'class': 'form-control', 'data-toggle': 'password', 'id': 'password', 'name': 'password',}))
     remember_me = forms.BooleanField(required=False)
 
@@ -32,8 +30,7 @@ class LoginForm(AuthenticationForm):
         model = User
         fields = ['username', 'password', 'remember_me']
 
-
-
+# Form for updating user information, extending Django's ModelForm
 class UpdateUserForm(forms.ModelForm):
     username = forms.CharField(max_length=100, required=True,
                                widget=forms.TextInput(attrs={'class': 'form-control'}))
@@ -44,15 +41,9 @@ class UpdateUserForm(forms.ModelForm):
         model = User
         fields = ['username', 'email']
 
+# Form for updating profile information, extending Django's ModelForm
 class UpdateProfileForm(forms.ModelForm):
 
     class Meta:
         model = Profile
         fields = ['fitness_goal', 'age', 'height', 'weight']
-
-
-# #from user_profile
-# class ProfileForm(forms.ModelForm):
-#     class Meta:
-#         model = Profile
-#         fields = ('user', 'birth_date', 'fitness_goal',)

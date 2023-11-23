@@ -3,6 +3,7 @@ from django.contrib.auth import views as auth_views
 from .views import home, RegisterView,CustomLoginView, profile
 from .forms import LoginForm
 
+#url routes
 urlpatterns = [
     path('', home, name='home'),
     path('register/', RegisterView.as_view(), name='users-register'),
